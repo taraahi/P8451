@@ -1,0 +1,51 @@
+---
+title: "Assignment 1"
+date: "1/18/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#install packages
+
+library(readxl)
+library(tidyverse)
+```
+
+# Problem 1
+### Reading in CSV file
+```{r}
+bcdata <- read.csv(file = 'bcdata_Assignment1.csv')
+head(bcdata)
+
+str(bcdata)
+```
+
+```{r}
+var.names <- c("age", "bmi", "glucose", "insulin", "HOMA-IR", "leptin", "adiponectin", "resistin", "MCP-1", "Classification")
+colnames(bcdata) <- var.names
+str(bcdata)
+```
+
+### Cleaning data
+
+It looks like the data is clean and the variable names are already at the column heads. The only step I've taken is to make the Classification variable a factor, as it's categorical.
+
+```{r}
+bcdata$Classification <- as.factor(bcdata$Classification)
+levels(bcdata$Classification) <- c("Healthy Controls", "Breast Cancer Patients")
+```
+
+### Creating summary tables 
+
+```{r}
+summary_df = summary(bcdata)
+
+knitr::kable(summary_df)
+```
+
+```{r}
+summary(bcdata)
+```
+
