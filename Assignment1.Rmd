@@ -45,7 +45,5 @@ summary_df = summary(bcdata)
 knitr::kable(summary_df)
 ```
 
-```{r}
-summary(bcdata)
-```
+
 
