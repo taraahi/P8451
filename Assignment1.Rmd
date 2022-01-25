@@ -45,5 +45,54 @@ summary_df = summary(bcdata)
 knitr::kable(summary_df)
 ```
 
+# Problem 2
+
+I have created new categories with the variable `bmi_cat` based on the numeric ranges of the variable `bmi`. 
+
+```{r}
+set.seed(1000)
+bcdata$bmi <- as.numeric(bcdata$bmi)
+bmi <- bcdata$bmi
+
+bmi_cat <- numeric()
+bmi_cat[bmi < 16.5] <- 1
+bmi_cat[bmi < 18.5 & bmi > 16.5] <- 2
+bmi_cat[bmi >= 18.5 & bmi < 24.9] <- 3
+bmi_cat[bmi >= 25 & bmi < 29.9] <- 4
+bmi_cat[bmi >= 30 & bmi < 34.9] <- 5
+bmi_cat[bmi >= 35 & bmi < 39.9] <- 6
+bmi_cat[bmi >= 40] <- 7
+
+bmi_cat <- as.factor(bmi_cat)
+head(bmi_cat)
+levels(bmi_cat) <- c("Severely underweight", "Underweight", "Normal weight", "Overweight", "Obesity class I", "Obesity class II", "Obesity class III")
+```
+
+I then added this new variable to a column using `mutate`.
+
+```{r}
+mutate(bcdata,
+       bmi_category = bmi_cat)
+```
+
+# Problem 3
+
+```{r}
+# library
+library(ggplot2)
+
+# dataset
+category <- c(rep("Severely underweight", 2) , rep("Underweight" , 2) , rep("Normal weight" , 2) , rep("Overweight" , 2) , rep("Obesity class I", 2) , rep("Obesity class II" , 2) , rep("Obesity class III", 2) )
+status <- rep(c("Healthy Controls", "Breast Cancer Patients"), 7)
+value <- abs(rnorm(14, 12))
+data <- data.frame(category, status, value)
+
+# stacked and proportion
+ggplot(data, aes(fill=status, y = value, x = category)) +
+  geom_bar(position = "fill", stat = "identity") +
+  theme(axis.text.x = element_text(angle = 45, vjust = 0.5, hjust = 0.5))
+
+```
+
 
 
